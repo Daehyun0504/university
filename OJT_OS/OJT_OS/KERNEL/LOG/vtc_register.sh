@@ -1,0 +1,26 @@
+#!/bin/sh
+
+echo "===== VTC Register Dump ====="
+
+echo "0x43C10000 $(devmem 0x43C10000)"
+echo "0x43C10004 $(devmem 0x43C10004)"
+echo "0x43C10008 $(devmem 0x43C10008)"
+echo "0x43C1000C $(devmem 0x43C1000C)"
+echo "0x43C10010 $(devmem 0x43C10010)"
+echo "0x43C10014 $(devmem 0x43C10014)"
+echo "0x43C10018 $(devmem 0x43C10018)"
+
+echo "0x43C10060 $(devmem 0x43C10060)"
+echo "0x43C10064 $(devmem 0x43C10064)"
+echo "0x43C10068 $(devmem 0x43C10068)"
+echo "0x43C1006C $(devmem 0x43C1006C)"
+echo "0x43C10070 $(devmem 0x43C10070)"
+echo "0x43C10074 $(devmem 0x43C10074)"
+echo "0x43C10078 $(devmem 0x43C10078)"
+echo "0x43C1007C $(devmem 0x43C1007C)"
+echo "0x43C10080 $(devmem 0x43C10080)"
+echo "0x43C10084 $(devmem 0x43C10084)"
+echo "0x43C10088 $(devmem 0x43C10088)"
+echo "0x43C1008C $(devmem 0x43C1008C)"
+echo "0x43C10090 $(devmem 0x43C10090)"
+echo "0x43C10094 $(devmem 0x43C10094)"

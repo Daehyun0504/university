@@ -1,0 +1,13 @@
+#!/bin/sh
+
+mount -t proc none /proc
+mount -t sysfs none /sys
+mount -t devtmpfs none /dev
+
+echo "=== BusyBox initramfs booted ==="
+
+mount -t ext4 /dev/mmcblk0p2 /newroot
+
+exec switch_root /newroot /sbin/init
+
+exec /bin/sh

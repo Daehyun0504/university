@@ -1,0 +1,45 @@
+#!/bin/sh
+
+echo deepx linux Build
+
+
+_ARCH=arm64
+_CROSS_COMPILE=../../2.complier/gcc-linaro-11.3.1-2022.06-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-
+_IMAGE_PATH=../..//3.image/
+_DATE=`date +%Y%m%d`
+
+case $1 in
+	menuconfig)
+		echo Open Menuconfig;
+		make ARCH=$_ARCH CROSS_COMPILE=$_CROSS_COMPILE menuconfig;
+		;;
+	defconfig)
+		echo Set adp510_defconfig;
+		make ARCH=$_ARCH CROSS_COMPILE=$_CROSS_COMPILE adp510_defconfig;
+		;;
+	distclean)
+		echo Distclean Linux;
+		make ARCH=$_ARCH CROSS_COMPILE=$_CROSS_COMPILE distclean;
+		;;
+	bak)
+		echo Backup Config;
+		cp ./.config ./config_$_DATE;
+		;;
+	back)
+                echo Backup Config;
+                cp ./.config ./config_$_DATE;
+                ;;
+	build)
+		echo Build linux
+		make ARCH=$_ARCH CROSS_COMPILE=$_CROSS_COMPILE -j 10;
+		mkimage -n 'Kernel Image' -A arm64 -O linux -C none -T kernel -a 0x80008000 -e 0x80008000 -d ./arch/arm64/boot/Image ./uImage;
+		cp ./uImage $_IMAGE_PATH;
+		cp ./arch/arm64/boot/dts/ADTek/adp510.dtb $_IMAGE_PATH;
+		;;
+	*)
+		echo CMD : menuconfig, defconfig, bak, build;
+		;;
+esac
+
+
+

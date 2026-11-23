@@ -1,0 +1,10 @@
+# Export excludes the original archives, Git history and build products.
+/OJT_OS.tar.gz
+/OJT_OS/KERNEL/linux.tar.gz
+/OJT_OS/KERNEL/REF_KERNEL/linux.zip
+/OJT_OS/KERNEL/REF_KERNEL/deepx_240930.tar
+/OJT_OS/FILESYSTEM/UBUNTU/rootfs/
+/OJT_OS/FILESYSTEM/UBUNTU/binary/
+/OJT_OS/FILESYSTEM/UBUNTU/*.tar.gz
+/OJT_OS/FILESYSTEM/GOLDEN/*.cpio.gz
+/OJT_OS/FILESYSTEM/uInitrd

@@ -1,0 +1,5 @@
+OJT_OS/KERNEL/linux/.config
+OJT_OS/KERNEL/linux/.config.old
+OJT_OS/KERNEL/REF_KERNEL/.config
+OJT_OS/FILESYSTEM/busybox/.config
+OJT_OS/FILESYSTEM/busybox/.config.old

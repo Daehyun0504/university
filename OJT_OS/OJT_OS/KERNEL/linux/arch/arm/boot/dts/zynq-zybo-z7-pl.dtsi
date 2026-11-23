@@ -1,0 +1,136 @@
+/ {
+        reserved-memory {                                     /* 커널이 사용하지 못하도록 예약할 메모리 영역 */
+                #address-cells = <1>;                         /* 주소 표현에 32비트 셀 1개 사용 */
+                #size-cells = <1>;                            /* 크기 표현에 32비트 셀 1개 사용 */
+                ranges;                                       /* 부모-자식 주소 1:1 매핑 */
+
+                framebuffer_reserved: framebuffer@30000000 {  /* framebuffer 예약 영역 (라벨: framebuffer_reserved) */
+                        reg = <0x30000000 0x003C0000>;        /* 시작주소 0x30000000, 크기 0x3C0000 (1280*1024*3 = 3,932,160 bytes) */
+                        no-map;                               /* 커널이 이 영역을 매핑하지 않음 */
+                };
+        };
+
+        fb0: framebuffer@30000000 {                           /* simple-framebuffer 노드 (라벨: fb0) */
+                compatible = "simple-framebuffer";            /* 바인딩할 드라이버 식별자 */
+                reg = <0x30000000 0x003C0000>;                /* framebuffer 물리 주소와 크기 */
+                width = <1280>;                               /* 가로 해상도 (픽셀) */
+                height = <1024>;                              /* 세로 해상도 (픽셀) */
+                stride = <3840>;                              /* 한 라인의 바이트 수 (1280 * 3) */
+                format = "r8g8b8";                            /* 픽셀 포맷 (RGB888, 24bpp) */
+                memory-region = <&framebuffer_reserved>;      /* 위에서 예약한 메모리 영역 참조 */
+                status = "disabled";                          /* dts에서 okay로 활성화 */
+        };
+};
+
+&amba {
+
+        gpio_switch: gpio@41200000 {                      /* GPIO 스위치 노드 */
+                compatible = "xlnx,xps-gpio-1.00.a";      /* dts와 driver를 연결 */
+                reg = <0x41200000 0x10000>;               /* Base Address / Range */
+                #gpio-cells = <2>;                        /* 참조시 사용할 셀 개수 (핀 번호, 플래그) */
+                gpio-controller;                          /* gpio_controller 선언 */
+                clocks = <&clkc 15>;                      /* GPIO Bus Clock (FCLK15) */
+                interrupt-parent = <&intc>;               /* Interrupt Controller */
+                interrupts = <0 29 4>;                    /* Interrupt 설정 (type: SPI, spi id: 29, trigger: high) */           
+                status = "disabled";                      /* 디바이스 비활성화 */
+        };
+
+        gpio_button: gpio@41210000 {                      /* GPIO 버튼 노드 */
+                compatible = "xlnx,xps-gpio-1.00.a";      /* dts와 driver를 연결 */
+                reg = <0x41210000 0x10000>;               /* Base Address / Range */
+                #gpio-cells = <2>;                        /* 참조시 사용할 셀 개수 (핀 번호, 플래그) */
+                gpio-controller;                          /* gpio_controller 선언 */
+                clocks = <&clkc 15>;                      /* GPIO Bus Clock (FCLK15) */
+                interrupt-parent = <&intc>;               /* Interrupt Controller */
+                interrupts = <0 33 4>;                    /* Interrupt 설정 (type: SPI, spi id: 33, trigger: high) */
+                status = "disabled";                      /* 디바이스 비활성화 */
+        };
+
+        gpio_led: gpio@41220000 {                         /* GPIO LED 노드 */
+                compatible = "xlnx,xps-gpio-1.00.a";      /* dts와 driver를 연결 */
+                reg = <0x41220000 0x10000>;               /* Base Address / Range */
+                #gpio-cells = <2>;                        /* 참조시 사용할 셀 개수 (핀 번호, 플래그) */
+                gpio-controller;                          /* gpio_controller 선언 */
+                clocks = <&clkc 15>;                      /* GPIO Bus Clock (FCLK15) */
+                status = "disabled";                      /* 디바이스 비활성화 */
+        };
+
+        gpio_rgb_led: gpio@41230000 {                     /* GPIO RGB LED 노드 */
+                compatible = "xlnx,xps-gpio-1.00.a";      /* dts와 driver를 연결 */
+                reg = <0x41230000 0x10000>;               /* Base Address / Range */
+                #gpio-cells = <2>;                        /* 참조시 사용할 셀 개수 (핀 번호, 플래그) */
+                gpio-controller;                          /* gpio_controller 선언 */
+                clocks = <&clkc 15>;                      /* GPIO Bus Clock (FCLK15) */
+                status = "disabled";                      /* 디바이스 비활성화 */
+        };
+
+        vtc: vtc@43c10000 {                               /* HDMI 출력용 Video Timing Controller(VTC) 노드 */
+                compatible = "dhy,vtc";                   /* dts와 driver를 연결 */
+                reg = <0x43c10000 0x10000>;               /* VTC 레지스터의 물리 주소와 크기 */
+                clocks = <&dynclk>;                       /* pixel clock을 dynamic clock에서 공급 */
+                clock-names = "clk";                      /* 클럭 이름 */
+                interrupt-parent = <&intc>;               /* Interrupt Controller */
+                interrupts = <0 31 4>;                    /* Interrupt 설정 (type: SPI, spi id: 31, trigger: high) */
+
+                /* 1280x1024@60Hz 타이밍 (dhy_vtc.c DEFAULT_1024P_* 매크로와 동일, pixel clock 108MHz) */
+                hactive = <1280>;                         /* DEFAULT_1024P_HACTIVE: 수평 유효 픽셀 */
+                vactive = <1024>;                         /* DEFAULT_1024P_VACTIVE: 수직 유효 라인 */
+                hfporch = <48>;                           /* DEFAULT_1024P_HFPORCH: 수평 Front Porch */
+                hsyncw  = <112>;                          /* DEFAULT_1024P_HSYNCW:  수평 Sync 폭 */
+                hbporch = <248>;                          /* DEFAULT_1024P_HBPORCH: 수평 Back Porch */
+                hpol    = <1>;                            /* DEFAULT_1024P_HPOL:    HSync 극성 (1=positive) */
+                vfporch = <1>;                            /* DEFAULT_1024P_VFPORCH: 수직 Front Porch */
+                vsyncw  = <3>;                            /* DEFAULT_1024P_VSYNCW:  수직 Sync 폭 */
+                vbporch = <38>;                           /* DEFAULT_1024P_VBPORCH: 수직 Back Porch */
+                vpol    = <1>;                            /* DEFAULT_1024P_VPOL:    VSync 극성 (1=positive) */
+
+                status = "disabled";                      /* dts에서 okay로 활성화 */
+        };
+
+        dynclk: dynclk@43c20000 {                         /* HDMI Pixel Clock Generator 노드 */
+                compatible = "dhy,dynclk";                /* dts와 driver를 연결 (dhy_dynclk.c) */
+                reg = <0x43c20000 0x10000>;               /* axi_dynclk 레지스터의 물리 주소와 크기 */
+                #clock-cells = <0>;                       /* clock provider (single output) */
+                clocks = <&clkc 15>;                      /* 입력 reference clock (FCLK_CLK0 = 100MHz) */
+                freq_khz = <108000>;                      /* 1280x1024@60Hz pixel clock = 108MHz */
+                status = "disabled";                      /* dts에서 okay로 활성화 */
+        };
+
+        vdma_s2mm: vdma@43000000 {                        /* VDMA S2MM 노드 */
+                compatible = "alice,vdma";                /* dts와 driver를 연결 */
+                reg = <0x43000000 0x10000>;               /* Base Address / Range */
+                s2mm_hsize = <1280>;                      /* S2MM 수평 크기 (픽셀 단위) */
+                s2mm_vsize = <1024>;                      /* S2MM 수직 크기 (라인 단위) */
+                s2mm_width = <3>;                         /* 픽셀당 바이트 수 (RGB888 = 3바이트) */
+                s2mm_Addr = <0x30000000>;                 /* S2MM가 저장할 Frame Buffer 시작 주소 */
+                enable-s2mm;                              /* S2MM만 활성화 */
+                status = "disabled";                      /* 디바이스 비활성화 */
+        };
+        
+        vdma_mm2s: vdma@43010000 {                        /* VDMA MM2S 노드 */
+                compatible = "alice,vdma";                /* dts와 driver를 연결 */
+                reg = <0x43010000 0x10000>;               /* Base Address / Range */
+                mm2s_hsize = <1280>;                      /* MM2S 수평 크기 (픽셀 단위) */
+                mm2s_vsize = <1024>;                      /* MM2S 수직 크기 (라인 단위) */
+                mm2s_width = <3>;                         /* 픽셀당 바이트 수 (RGB888 = 3바이트) */
+                mm2s_Addr = <0x30000000>;                 /* MM2S가 읽어올 Frame Buffer 시작 주소 */
+                enable-mm2s;                              /* MM2S만 활성화 */
+                status = "disabled";                      /* 디바이스 비활성화 */
+        };
+
+        tpg0: tpg@43c00000 {                              /* Test Pattern Generator 노드 */
+                compatible = "alice,tpg";                 /* dts와 driver를 연결 */
+                reg = <0x43c00000 0x10000>;               /* Base Address / Range */
+                HSize = <1280>;                           /* 출력 영상의 가로 해상도 */
+                VSize = <1024>;                           /* 출력 영상의 세로 해상도 */
+                status = "disabled";                      /* 디바이스 비활성화 */
+        };
+};
+
+&clkc {
+        fclk-enable = <0xF>;
+};
+
+
+
+

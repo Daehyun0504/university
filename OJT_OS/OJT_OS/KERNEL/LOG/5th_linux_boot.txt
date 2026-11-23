@@ -1,0 +1,389 @@
+Hit any key to stop autoboot: 0
+SF: Detected s25fl128s with page size 512 Bytes, erase size 128 KiB, total 32 MiB
+device 0 offset 0xfc0000, size 0x40000
+SF: 262144 bytes @ 0xfc0000 Read: OK
+QSPI: Trying to boot script at 3000000
+## Executing script at 03000000
+Wrong image format for "source" command
+QSPI: SCRIPT FAILED: continuing...
+JTAG: Trying to boot script at 3000000
+## Executing script at 03000000
+Wrong image format for "source" command
+JTAG: SCRIPT FAILED: continuing...
+switch to partitions #0, OK
+mmc0 is current device
+Scanning mmc 0:1...
+Cannot persist EFI variables without system partition
+Loading Boot0000 'mmc 0' failed
+EFI boot manager: Cannot load any image
+MMC Device 1 not found
+no mmc device at slot 1
+SF: Detected s25fl128s with page size 512 Bytes, erase size 128 KiB, total 32 MiB
+device 0 offset 0xfc0000, size 0x40000
+SF: 262144 bytes @ 0xfc0000 Read: OK
+QSPI: Trying to boot script at 3000000
+## Executing script at 03000000
+Wrong image format for "source" command
+QSPI: SCRIPT FAILED: continuing...
+
+
+no devices available
+NAND: SCRIPT FAILED: continuing...
+NOR: Trying to boot script at 3000000
+## Executing script at 03000000
+Wrong image format for "source" command
+NOR: SCRIPT FAILED: continuing...
+starting USB...
+USB EHCI 1.00
+Bus usb@e0002000: 1 USB Device(s) found
+       scanning usb for storage devices... 0 Storage Device(s) found
+
+Device 0: unknown device
+
+Device 1: unknown device
+ethernet@e000b000 Waiting for PHY auto negotiation to complete......... TIMEOUT !
+ethernet@e000b000 Waiting for PHY auto negotiation to complete......... TIMEOUT !
+Could not start ethernet@e000b000
+missing environment variable: pxeuuid
+Retrieving file: pxelinux.cfg/01-ee-ef-38-86-5d-6c
+error: tftpserverip/serverip has to be set
+Retrieving file: pxelinux.cfg/00000000
+error: tftpserverip/serverip has to be set
+Retrieving file: pxelinux.cfg/0000000
+error: tftpserverip/serverip has to be set
+Retrieving file: pxelinux.cfg/000000
+error: tftpserverip/serverip has to be set
+Retrieving file: pxelinux.cfg/00000
+error: tftpserverip/serverip has to be set
+Retrieving file: pxelinux.cfg/0000
+error: tftpserverip/serverip has to be set
+Retrieving file: pxelinux.cfg/000
+error: tftpserverip/serverip has to be set
+Retrieving file: pxelinux.cfg/00
+error: tftpserverip/serverip has to be set
+Retrieving file: pxelinux.cfg/0
+error: tftpserverip/serverip has to be set
+Retrieving file: pxelinux.cfg/default-arm-zynq-zynq
+error: tftpserverip/serverip has to be set
+Retrieving file: pxelinux.cfg/default-arm-zynq
+error: tftpserverip/serverip has to be set
+Retrieving file: pxelinux.cfg/default-arm
+error: tftpserverip/serverip has to be set
+Retrieving file: pxelinux.cfg/default
+error: tftpserverip/serverip has to be set
+Config file not found
+ethernet@e000b000 Waiting for PHY auto negotiation to complete......... TIMEOUT !
+ethernet@e000b000 Waiting for PHY auto negotiation to complete......... TIMEOUT !
+Could not start ethernet@e000b000
+ethernet@e000b000 Waiting for PHY auto negotiation to complete......... TIMEOUT !
+ethernet@e000b000 Waiting for PHY auto negotiation to complete......... TIMEOUT !
+Could not start ethernet@e000b000
+Zynq> fatload mmc 0 0x2000000 uImage
+10613312 bytes read in 592 ms (17.1 MiB/s)
+Zynq> fatload mmc 0 0x1f00000 zynq-zybo-z7.dtb
+12415 bytes read in 13 ms (932.6 KiB/s)
+Zynq> fatload mmc 0 0x3100000 uInitrd
+1072046 bytes read in 71 ms (14.4 MiB/s)
+Zynq> setenv bootargs "console=ttyPS0,115200 rdinit=/init"
+Zynq> bootm 0x2000000 0x3100000 0x1f00000
+## Booting kernel from Legacy Image at 02000000 ...
+   Image Name:   Linux-6.1.161-dirty
+   Created:      2026-03-17   8:22:48 UTC
+   Image Type:   ARM Linux Kernel Image (uncompressed)
+   Data Size:    10613248 Bytes = 10.1 MiB
+   Load Address: 02000000
+   Entry Point:  02000000
+   Verifying Checksum ... OK
+## Loading init Ramdisk from Legacy Image at 03100000 ...
+   Image Name:   rootfs
+   Created:      2026-01-29   4:28:17 UTC
+   Image Type:   ARM Linux RAMDisk Image (gzip compressed)
+   Data Size:    1071982 Bytes = 1 MiB
+   Load Address: 00000000
+   Entry Point:  00000000
+   Verifying Checksum ... OK
+## Flattened Device Tree blob at 01f00000
+   Booting using the fdt blob at 0x1f00000
+Working FDT set to 1f00000
+   Loading Kernel Image to 2000000
+   Loading Ramdisk to 2fefa000, end 2ffffb6e ... OK
+   Loading Device Tree to 2fef3000, end 2fef907e ... OK
+Working FDT set to 2fef3000
+
+Starting kernel ...
+
+[    0.000000] Booting Linux on physical CPU 0x0
+[    0.000000] Linux version 6.1.161-dirty (yoondh@alice-NUC7i5BNH) (arm-linux-gnueabihf-gcc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0, GNU ld (GNU Binutils for Ubuntu) 2.42) #8 SMP Tue Mar 17 17:20:54 KST 2026
+[    0.000000] CPU: ARMv7 Processor [413fc090] revision 0 (ARMv7), cr=18c5387d
+[    0.000000] CPU: PIPT / VIPT nonaliasing data cache, VIPT aliasing instruction cache
+[    0.000000] OF: fdt: Machine model: Digilent Zybo Z7 board
+[    0.000000] Memory policy: Data cache writealloc
+[    0.000000] efi: UEFI not found.
+[    0.000000] cma: Reserved 64 MiB at 0x3c000000
+[    0.000000] Zone ranges:
+[    0.000000]   DMA      [mem 0x0000000000000000-0x000000002fffffff]
+[    0.000000]   Normal   empty
+[    0.000000]   HighMem  [mem 0x0000000030000000-0x000000003fffffff]
+[    0.000000] Movable zone start for each node
+[    0.000000] Early memory node ranges
+[    0.000000]   node   0: [mem 0x0000000000000000-0x000000002fffffff]
+[    0.000000]   node   0: [mem 0x0000000030000000-0x00000000303bffff]
+[    0.000000]   node   0: [mem 0x00000000303c0000-0x000000003fffffff]
+[    0.000000] Initmem setup node 0 [mem 0x0000000000000000-0x000000003fffffff]
+[    0.000000] percpu: Embedded 16 pages/cpu s34644 r8192 d22700 u65536
+[    0.000000] Built 1 zonelists, mobility grouping on.  Total pages: 260608
+[    0.000000] Kernel command line: console=ttyPS0,115200 rdinit=/init
+[    0.000000] Dentry cache hash table entries: 131072 (order: 7, 524288 bytes, linear)
+[    0.000000] Inode-cache hash table entries: 65536 (order: 6, 262144 bytes, linear)
+[    0.000000] mem auto-init: stack:all(zero), heap alloc:off, heap free:off
+[    0.000000] Memory: 940968K/1048576K available (15360K kernel code, 2473K rwdata, 6228K rodata, 2048K init, 429K bss, 42072K reserved, 65536K cma-reserved, 192768K highmem)
+[    0.000000] SLUB: HWalign=64, Order=0-3, MinObjects=0, CPUs=2, Nodes=1
+[    0.000000] trace event string verifier disabled
+[    0.000000] rcu: Hierarchical RCU implementation.
+[    0.000000] rcu:     RCU event tracing is enabled.
+[    0.000000] rcu:     RCU restricting CPUs from NR_CPUS=16 to nr_cpu_ids=2.
+[    0.000000] rcu: RCU calculated value of scheduler-enlistment delay is 10 jiffies.
+[    0.000000] rcu: Adjusting geometry for rcu_fanout_leaf=16, nr_cpu_ids=2
+[    0.000000] NR_IRQS: 16, nr_irqs: 16, preallocated irqs: 16
+[    0.000000] slcr mapped to (ptrval)
+[    0.000000] L2C: platform modifies aux control register: 0x72360000 -> 0x72760000
+[    0.000000] L2C: DT/platform modifies aux control register: 0x72360000 -> 0x72760000
+[    0.000000] L2C-310 erratum 769419 enabled
+[    0.000000] L2C-310 enabling early BRESP for Cortex-A9
+[    0.000000] L2C-310 full line of zeros enabled for Cortex-A9
+[    0.000000] L2C-310 ID prefetch enabled, offset 1 lines
+[    0.000000] L2C-310 dynamic clock gating enabled, standby mode enabled
+[    0.000000] L2C-310 cache controller enabled, 8 ways, 512 kB
+[    0.000000] L2C-310: CACHE_ID 0x410000c8, AUX_CTRL 0x76760001
+[    0.000000] rcu: srcu_init: Setting srcu_struct sizes based on contention.
+[    0.000000] zynq_clock_init: clkc starts at (ptrval)
+[    0.000000] Zynq clock init
+[    0.000001] sched_clock: 64 bits at 167MHz, resolution 6ns, wraps every 4398046511103ns
+[    0.000022] clocksource: arm_global_timer: mask: 0xffffffffffffffff max_cycles: 0x26703d7dd8, max_idle_ns: 440795208065 ns
+[    0.000053] Switching to timer-based delay loop, resolution 6ns
+[    0.001363] Console: colour dummy device 80x30
+[    0.001416] Calibrating delay loop (skipped), value calculated using timer frequency.. 333.33 BogoMIPS (lpj=1666666)
+[    0.001432] CPU: Testing write buffer coherency: ok
+[    0.001478] CPU0: Spectre v2: using BPIALL workaround
+[    0.001487] pid_max: default: 32768 minimum: 301
+[    0.001651] Mount-cache hash table entries: 2048 (order: 1, 8192 bytes, linear)
+[    0.001669] Mountpoint-cache hash table entries: 2048 (order: 1, 8192 bytes, linear)
+[    0.002603] CPU0: thread -1, cpu 0, socket 0, mpidr 80000000
+[    0.003409] Setting up static identity map for 0x300000 - 0x3000ac
+[    0.004112] rcu: Hierarchical SRCU implementation.
+[    0.004118] rcu:     Max phase no-delay instances is 1000.
+[    0.005643] EFI services will not be available.
+[    0.005879] smp: Bringing up secondary CPUs ...
+[    0.006713] CPU1: thread -1, cpu 1, socket 0, mpidr 80000001
+[    0.006733] CPU1: Spectre v2: using BPIALL workaround
+[    0.006869] smp: Brought up 1 node, 2 CPUs
+[    0.006881] SMP: Total of 2 processors activated (666.66 BogoMIPS).
+[    0.006891] CPU: All CPU(s) started in SVC mode.
+[    0.007633] devtmpfs: initialized
+[    0.010853] VFP support v0.3: implementor 41 architecture 3 part 30 variant 9 rev 4
+[    0.011080] clocksource: jiffies: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 19112604462750000 ns
+[    0.011103] futex hash table entries: 512 (order: 3, 32768 bytes, linear)
+[    0.014843] pinctrl core: initialized pinctrl subsystem
+[    0.016936] DMI not present or invalid.
+[    0.017711] NET: Registered PF_NETLINK/PF_ROUTE protocol family
+[    0.020327] DMA: preallocated 256 KiB pool for atomic coherent allocations
+[    0.022482] thermal_sys: Registered thermal governor 'step_wise'
+[    0.022556] cpuidle: using governor menu
+[    0.026975] /axi: Fixed dependency cycle(s) with /axi/interrupt-controller@f8f01000
+[    0.027079] /axi/etb@f8801000: Fixed dependency cycle(s) with /replicator
+[    0.027198] /axi/tpiu@f8803000: Fixed dependency cycle(s) with /replicator
+[    0.027228] /axi/funnel@f8804000: Fixed dependency cycle(s) with /axi/ptm@f889d000
+[    0.027251] /axi/funnel@f8804000: Fixed dependency cycle(s) with /axi/ptm@f889c000
+[    0.027275] /axi/funnel@f8804000: Fixed dependency cycle(s) with /replicator
+[    0.027315] /axi/ptm@f889c000: Fixed dependency cycle(s) with /axi/funnel@f8804000
+[    0.027349] /axi/ptm@f889d000: Fixed dependency cycle(s) with /axi/funnel@f8804000
+[    0.032637] /replicator: Fixed dependency cycle(s) with /axi/etb@f8801000
+[    0.032742] /axi/etb@f8801000: Fixed dependency cycle(s) with /replicator
+[    0.032972] /replicator: Fixed dependency cycle(s) with /axi/tpiu@f8803000
+[    0.033063] /axi/tpiu@f8803000: Fixed dependency cycle(s) with /replicator
+[    0.033333] /replicator: Fixed dependency cycle(s) with /axi/funnel@f8804000
+[    0.033417] /axi/funnel@f8804000: Fixed dependency cycle(s) with /axi/ptm@f889d000
+[    0.033442] /axi/funnel@f8804000: Fixed dependency cycle(s) with /axi/ptm@f889c000
+[    0.033464] /axi/funnel@f8804000: Fixed dependency cycle(s) with /replicator
+[    0.033707] /axi/funnel@f8804000: Fixed dependency cycle(s) with /axi/ptm@f889c000
+[    0.033797] /axi/ptm@f889c000: Fixed dependency cycle(s) with /axi/funnel@f8804000
+[    0.034034] /axi/funnel@f8804000: Fixed dependency cycle(s) with /axi/ptm@f889d000
+[    0.034122] /axi/ptm@f889d000: Fixed dependency cycle(s) with /axi/funnel@f8804000
+[    0.037668] No ATAGs?
+[    0.037761] hw-breakpoint: found 5 (+1 reserved) breakpoint and 1 watchpoint registers.
+[    0.037774] hw-breakpoint: maximum watchpoint size is 4 bytes.
+[    0.042438] Serial: AMBA PL011 UART driver
+[    0.042933] e0001000.serial: ttyPS0 at MMIO 0xe0001000 (irq = 26, base_baud = 6249999) is a xuartps
+[    0.683651] printk: console [ttyPS0] enabled
+[    0.720678] iommu: Default domain type: Translated
+[    0.725558] iommu: DMA domain TLB invalidation policy: strict mode
+[    0.732543] SCSI subsystem initialized
+[    0.740641] usbcore: registered new interface driver usbfs
+[    0.746172] usbcore: registered new interface driver hub
+[    0.751565] usbcore: registered new device driver usb
+[    0.757915] pps_core: LinuxPPS API ver. 1 registered
+[    0.762897] pps_core: Software ver. 5.3.6 - Copyright 2005-2007 Rodolfo Giometti <giometti@linux.it>
+[    0.772053] PTP clock support registered
+[    0.776140] EDAC MC: Ver: 3.0.0
+[    0.800343] vgaarb: loaded
+[    0.803517] clocksource: Switched to clocksource arm_global_timer
+[    0.819797] NET: Registered PF_INET protocol family
+[    0.824949] IP idents hash table entries: 16384 (order: 5, 131072 bytes, linear)
+[    0.834415] tcp_listen_portaddr_hash hash table entries: 512 (order: 0, 4096 bytes, linear)
+[    0.842829] Table-perturb hash table entries: 65536 (order: 6, 262144 bytes, linear)
+[    0.850589] TCP established hash table entries: 8192 (order: 3, 32768 bytes, linear)
+[    0.858409] TCP bind hash table entries: 8192 (order: 5, 131072 bytes, linear)
+[    0.865907] TCP: Hash tables configured (established 8192 bind 8192)
+[    0.872362] UDP hash table entries: 512 (order: 2, 16384 bytes, linear)
+[    0.879017] UDP-Lite hash table entries: 512 (order: 2, 16384 bytes, linear)
+[    0.886285] NET: Registered PF_UNIX/PF_LOCAL protocol family
+[    0.900603] RPC: Registered named UNIX socket transport module.
+[    0.906528] RPC: Registered udp transport module.
+[    0.911251] RPC: Registered tcp transport module.
+[    0.915945] RPC: Registered tcp NFSv4.1 backchannel transport module.
+[    0.922401] PCI: CLS 0 bytes, default 64
+[    0.926787] armv7-pmu f8891000.pmu: hw perfevents: no interrupt-affinity property, guessing.
+[    0.945267] hw perfevents: enabled with armv7_cortex_a9 PMU driver, 7 counters available
+[    0.945506] Trying to unpack rootfs image as initramfs...
+[    0.954667] Initialise system trusted keyrings
+[    0.963508] workingset: timestamp_bits=30 max_order=18 bucket_order=0
+[    0.976767] squashfs: version 4.0 (2009/01/31) Phillip Lougher
+[    1.007980] NFS: Registering the id_resolver key type
+[    1.013106] Key type id_resolver registered
+[    1.017284] Key type id_legacy registered
+[    1.021427] nfs4filelayout_init: NFSv4 File Layout Driver Registering...
+[    1.028127] nfs4flexfilelayout_init: NFSv4 Flexfile Layout Driver Registering...
+[    1.035564] ntfs: driver 2.1.32 [Flags: R/O].
+[    1.070595] Key type asymmetric registered
+[    1.074697] Asymmetric key parser 'x509' registered
+[    1.079762] bounce: pool size: 64 pages
+[    1.083742] Block layer SCSI generic (bsg) driver version 0.4 loaded (major 246)
+[    1.091169] io scheduler mq-deadline registered
+[    1.095692] io scheduler kyber registered
+[    1.127896] Freeing initrd memory: 1048K
+[    1.154435] zynq-pinctrl 700.pinctrl: zynq pinctrl initialized
+[    1.166671] gpio gpiochip4: (zynq_gpio): not an immutable chip, please consider fixing it!
+[    1.178693] simple-framebuffer 30000000.framebuffer: framebuffer at 0x30000000, 0x3c0000 bytes
+[    1.187363] simple-framebuffer 30000000.framebuffer: format=r8g8b8, mode=1280x1024x24, linelength=3840
+[    1.228979] Console: switching to colour frame buffer device 160x64
+[    1.266969] simple-framebuffer 30000000.framebuffer: fb0: simplefb registered!
+[    1.287372] dma-pl330 f8003000.dmac: Loaded driver for PL330 DMAC-241330
+[    1.294116] dma-pl330 f8003000.dmac:         DBUFF-128x8bytes Num_Chans-8 Num_Peri-4 Num_Events-16
+[    1.303109] ALICE : alice_dma_probe
+[    1.306677] ALICE : MM2S HSIZE : 1920
+[    1.310351] ALICE : MM2S VSIZE : 1080
+[    1.314010] ALICE : MM2S WIDTH : 4
+[    1.317404] ALICE : MM2S BufferStart : 0
+[    1.321339] ALICE : S2MM HSIZE : 1280
+[    1.324999] ALICE : S2MM VSIZE : 1024
+[    1.328653] ALICE : S2MM WIDTH : 3
+[    1.332074] ALICE : S2MM BufferStart : 30000000
+[    1.336616] ALICE : REG : (ptrval)
+[    1.340015] ALICE : Testing VDMA register access...
+[    1.344897] ALICE : VDMA VERSION : 0x62000050
+[    1.349250] ALICE : S2MM init start
+[    1.352739] ALICE : S2MM PARK_PTR_REG done
+[    1.356828] ALICE : S2MM VDMACR done
+[    1.360407] ALICE : Display : 30000000
+[    1.364145] ALICE : S2MM init done
+[    1.367539] ALICE : MM2S init start
+[    1.371029] ALICE : MM2S PARK_PTR_REG done
+[    1.375116] ALICE : MM2S VDMACR done
+[    1.378686] ALICE : Display : 0
+[    1.381843] ALICE : MM2S init done
+[    1.385332] ALICE : alice_dma_probe
+[    1.388902] ALICE : MM2S HSIZE : 1280
+[    1.392572] ALICE : MM2S VSIZE : 1024
+[    1.396227] ALICE : MM2S WIDTH : 3
+[    1.399621] ALICE : MM2S BufferStart : 30000000
+[    1.404160] ALICE : S2MM HSIZE : 1920
+[    1.407815] ALICE : S2MM VSIZE : 1080
+[    1.411478] ALICE : S2MM WIDTH : 4
+[    1.414871] ALICE : S2MM BufferStart : 0
+[    1.418800] ALICE : REG : (ptrval)
+[    1.422209] ALICE : Testing VDMA register access...
+[    1.427075] ALICE : VDMA VERSION : 0x62000050
+[    1.431434] ALICE : S2MM init start
+[    1.434913] ALICE : S2MM PARK_PTR_REG done
+[    1.439001] ALICE : S2MM VDMACR done
+[    1.442589] ALICE : Display : 0
+[    1.445720] ALICE : S2MM init done
+[    1.449113] ALICE : MM2S init start
+[    1.452605] ALICE : MM2S PARK_PTR_REG done
+[    1.456691] ALICE : MM2S VDMACR done
+[    1.460271] ALICE : Display : 30000000
+[    1.464008] ALICE : MM2S init done
+[    1.534050] Serial: 8250/16550 driver, 5 ports, IRQ sharing enabled
+[    1.544191] SuperH (H)SCI(F) driver initialized
+[    1.549545] msm_serial: driver initialized
+[    1.553671] STMicroelectronics ASC driver initialized
+[    1.559571] STM32 USART driver initialized
+[    1.570087] ALICE : alice TPG Probe
+[    1.573691] ALICE : VSize : 1024
+[    1.576910] ALICE : HSize : 1280
+[    1.589436] brd: module loaded
+[    1.598888] loop: module loaded
+[    1.602795] dhy-dynclk 43c20000.dynclk: Dynamic Clock probed at 0x43c20000
+[    1.609710] dhy-dynclk 43c20000.dynclk: Requested: 108000 kHz, Actual: 108000 kHz, Error: 0 kHz
+[    1.618440] dhy-dynclk 43c20000.dynclk: Params: fbmult=54, clkdiv=2, maindiv=5
+[    1.625766] dhy-dynclk 43c20000.dynclk: Clock started at 108000 kHz
+[    1.643334] CAN device driver interface
+[    1.700852] macb e000b000.ethernet eth0: Cadence GEM rev 0x00020118 at 0xe000b000 irq 41 (ee:ef:38:86:5d:6c)
+[    1.711323] bgmac_bcma: Broadcom 47xx GBit MAC driver loaded
+[    1.717909] e1000e: Intel(R) PRO/1000 Network Driver
+[    1.722891] e1000e: Copyright(c) 1999 - 2015 Intel Corporation.
+[    1.728871] igb: Intel(R) Gigabit Ethernet Network Driver
+[    1.734276] igb: Copyright (c) 2007-2014 Intel Corporation.
+[    1.743622] pegasus: Pegasus/Pegasus II USB Ethernet driver
+[    1.749236] usbcore: registered new interface driver pegasus
+[    1.754966] usbcore: registered new interface driver asix
+[    1.760413] usbcore: registered new interface driver ax88179_178a
+[    1.766532] usbcore: registered new interface driver cdc_ether
+[    1.772431] usbcore: registered new interface driver smsc75xx
+[    1.778220] usbcore: registered new interface driver smsc95xx
+[    1.784016] usbcore: registered new interface driver net1080
+[    1.789700] usbcore: registered new interface driver cdc_subset
+[    1.795660] usbcore: registered new interface driver zaurus
+[    1.801303] usbcore: registered new interface driver cdc_ncm
+[    1.810891] usbcore: registered new interface driver usb-storage
+[    1.827154] i2c_dev: i2c /dev entries driver
+[    1.843608] cpufreq: cpufreq_online: CPU0: Running at unlisted initial frequency: 666666 KHz, changing to: 666667 KHz
+[    1.855500] Xilinx Zynq CpuIdle Driver started
+[    1.863328] sdhci: Secure Digital Host Controller Interface driver
+[    1.869525] sdhci: Copyright(c) Pierre Ossman
+[    1.877248] Synopsys Designware Multimedia Card Interface Driver
+[    1.886366] sdhci-pltfm: SDHCI platform and OF driver helper
+[    1.910510] ledtrig-cpu: registered to indicate activity on CPUs
+[    1.918323] clocksource: ttc_clocksource: mask: 0xffff max_cycles: 0xffff, max_idle_ns: 537538477 ns
+[    1.927599] timer #0 at (ptrval), irq=43
+[    1.932102] usbcore: registered new interface driver usbhid
+[    1.937721] usbhid: USB HID core driver
+[    1.949911] NET: Registered PF_INET6 protocol family
+[    1.957129] Segment Routing with IPv6
+[    1.960921] In-situ OAM (IOAM) with IPv6
+[    1.965125] sit: IPv6, IPv4 and MPLS over IPv4 tunneling driver
+[    1.972393] NET: Registered PF_PACKET protocol family
+[    1.977510] can: controller area network core
+[    1.981985] NET: Registered PF_CAN protocol family
+[    1.986847] can: raw protocol
+[    1.989828] can: broadcast manager protocol
+[    1.994082] can: netlink gateway - max_hops=1
+[    1.999050] Key type dns_resolver registered
+[    2.003657] ThumbEE CPU extension supported.
+[    2.007954] Registering SWP/SWPB emulation handler
+[    2.013830] Loading compiled-in X.509 certificates
+[    2.030064] mmc0: SDHCI controller on e0100000.mmc [e0100000.mmc] using ADMA
+[    2.038231] usb_phy_generic phy0: supply vcc not found, using dummy regulator
+[    2.045609] usb_phy_generic phy0: dummy supplies not allowed for exclusive requests
+[    2.054929] xvtc 43c10000.vtc: VTC auto-init: 1280x1024@60Hz
+[    2.060601] xvtc 43c10000.vtc: VTC generator enabled
+[    2.065964] xvtc 43c10000.vtc: xvtc probed at 0x43c10000
+[    2.104422] mmc0: new high speed SDHC card at address aaaa
+[    2.110632] mmcblk0: mmc0:aaaa SB16G 14.8 GiB
+[    2.120409]  mmcblk0: p1 p2
+[    2.267412] clk: Disabling unused clocks
+[    2.274766] Freeing unused kernel image (initmem) memory: 2048K
+[    2.281446] Run /init as init process
+=== BusyBox initramfs booted ===
+/bin/sh: can't access tty; job control turned off
+~ #

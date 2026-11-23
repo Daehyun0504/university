@@ -1,0 +1,80 @@
+#include "adp510-clocks.dtsi"
+
+/ {
+	fb0: frambuffer@b0100000 {
+		compatible = "simple-framebuffer";
+		reg = <0x0 0xb0100000 0x0 0x600000>;
+		width = <1920>;
+		height = <1080>;
+		stride = <5760>; 
+		format = "r8g8b8";
+		status = "disabled";
+	};
+
+	vdma0: vdma@20150000 {
+		compatible = "alice,vdma";
+		reg = <0x0 0x20150000 0x0 0x10000>;
+		mm2s_hsize = <1920>;
+		mm2s_vsize = <1080>;
+		mm2s_width = <3>;
+		mm2s_Addr = <0x30100000>;
+		s2mm_hsize = <1920>;
+		s2mm_vsize = <1080>;
+		s2mm_width = <3>;
+		s2mm_Addr = <0x30100000>;
+		status = "okay";
+	};
+
+	/*
+	 * Bayer
+	 * 0 - RGGB 
+	 * 1 - GRBG
+	 * 2 - GBRG
+	 * 3 - BGGR
+	 */
+	demosaic0: demosaic@20160000 {
+		compatible = "alice,demosaic";
+		reg = <0x0 0x20160000 0x0 0x10000>;
+		HSize = <1920>;
+		VSize = <1080>;
+		bayer = <3>; 
+		status = "okay";
+	};
+	
+	tpg0: tpg@20120000 {
+		compatible = "alice,tpg";
+		reg = <0x0 0x20120000 0x0 0x10000>;
+		HSize = <1920>;
+		VSize = <1080>;
+		status = "okay";
+	};	
+
+	dsi_tx0: dsi_tx@20130000 {
+                compatible = "alice,dsi";
+                reg = <0x0 0x20130000 0x0 0x10000>;
+                HSize = <5760>; /* 1920 * 3 */
+                VSize = <1080>;
+                HBP = <540>; /* 180 * 3 */
+                HFP = <300>; /* 100 * 3 */
+                VSA = <15>;
+                VBP = <15>;
+                VFP = <15>;
+                status = "okay";
+        };
+
+	csi_rx0: csi_rx@20140000 {
+		compatible = "alice,csi2";
+		reg = <0x0 0x20140000 0x0 0x10000>;
+		lanes = <2>;
+		status = "okay";
+	};
+
+	uart4: serial@20190000 {
+		compatible = "arm,pl011", "arm,primecell";
+		reg = <0x0 0x20190000 0x0 0x1000>;
+		interrupts = <GIC_SPI 39 IRQ_TYPE_LEVEL_HIGH>;
+		clocks = <&uartclk>, <&sys_pll>;
+                clock-names = "uartclk", "apb_pclk";
+                status = "disabled";
+	};	
+};

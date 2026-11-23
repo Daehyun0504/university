@@ -1,0 +1,540 @@
+// SPDX-License-Identifier: GPL-2.0
+#include <dt-bindings/interrupt-controller/arm-gic.h>
+#include <dt-bindings/arm/coresight-cti-dt.h> 
+#include "adp510-clocks.dtsi"
+
+/ {
+	/*
+	 *  All IP on adp510
+	 */
+
+	/*
+	 * 0x0000 0000 ~ 0x0003 FFFF  - ROM (256KB)
+	 * 0x0020 0000 ~ 0x003F FFFF  - SRAM (2MB)
+	 * 0x2000 0000 ~ 0x2000 0FFF  - GPIO
+	 * 0x2000 1000 ~ 0x2000 1FFF  - TS_CoreREAD
+	 * 0x2000 2000 ~ 0x2000 2FFF  - TS_DBGREAD
+	 * 0x2000 3000 ~ 0x2000 3FFF  - Timer 0 "arm,sp804", "arm,primecell";
+	 * 0x2000 5000 ~ 0x2000 5FFF  - DMA_NS  compatible = "arm,pl330", "arm,primecell";
+	 * 0x2000 6000 ~ 0x2000 6FFF  - [ADT_DDR_Monitor]
+	 * 0x2000 7000 ~ 0x2000 7FFF  - [MHU_SND_NS]
+	 * 0x2000 8000 ~ 0x2000 8FFF  - [MHU_REC_NS]
+	 * 0x2000 F000 ~ 0x2000 FFFF  - TUBE 
+	 * 0x2002 0000 ~ 0x2002 0FFF  - Uart 0 compatible = "arm,pl011", "arm,primecell";
+	 * 0x2002 1000 ~ 0x2002 1FFF  - Uart 1
+	 * 0x2002 2000 ~ 0x2002 2FFF  - Uart 2
+	 * 0x2002 3000 ~ 0x2002 3FFF  - Uart 3
+	 * 0x2002 4000 ~ 0x2002 4FFF  - SSI 0 (QSPI)  SNPS DW_apb_ssi
+	 * 0x2002 5000 ~ 0x2002 5FFF  - SSP 0
+	 * 0x2002 6000 ~ 0x2002 6FFF  - SSP 1
+	 * 0x2002 7000 ~ 0x2002 7FFF  - I2C 0 compatible = "snps,designware-i2c"
+	 * 0x2002 8000 ~ 0x2002 8FFF  - I2C 1 
+	 * 0x2002 9000 ~ 0x2002 9FFF  - I2C 2
+	 * 0x2002 A000 ~ 0x2002 AFFF  - I2C 3
+	 * 0x2002 B000 ~ 0x2002 BFFF  - I2S 0 compatible = "snps,designware-i2s"
+	 * 0x2002 C000 ~ 0x2002 CFFF  - I2S 1
+	 * 0x2002 D000 ~ 0x2002 DFFF  - I2S 2
+	 * 0x2002 E000 ~ 0x2002 EFFF  - I2S 3
+	 * 0x2010 0000 ~ 0x2010 FFFF  - SDIO_EMMC
+	 * 0x2040 0000 ~ 0x204F FFFF  - GMAC  compatible = "snps,dwmac-4.10a"
+	 * 0x2050 0000 ~ 0x205F FFFF  - GIC400 compatible = "arm,gic-400", "arm,cortex-a15-gic"
+	 * 0x3000 0000 ~ 0x3000 0FFF  - DMA_S  
+	 * 0x3000 1000 ~ 0x3000 1FFF  - TS_CORECTRL
+	 * 0x3000 2000 ~ 0x3000 2FFF  - SYS_CTRL
+	 * 0x3000 4000 ~ 0x3000 4FFF  - WDT
+	 * 0x3000 6000 ~ 0x3000 6FFF  - PPC
+	 * 0x3000 7000 ~ 0x3000 7FFF  - MPC
+	 * 0x3000 8000 ~ 0x3000 8FFF  - Timer 1
+	 * 0x3000 9000 ~ 0x3000 9FFF  - [MHU_SND_S]
+	 * 0x3000 A000 ~ 0x3000 AFFF  - [MHU_REC_S]
+	 * 0x3000 F000 ~ 0x3000 FFFF  - TUBE
+	 * 0x8000 0000 ~ 0xBFFF FFFF  - DDR (1GB)
+	 */
+
+	cpus {
+		#address-cells = <1>;
+		#size-cells = <0>;
+
+		A53_0: cpu@0 {
+			compatible = "arm,cortex-a53";
+			reg = <0x0>;
+			device_type = "cpu";
+			enable-method = "psci";
+			next-level-cache = <&A53_L2>;
+			clocks = <&ca53clk>;
+		}; 
+		A53_1: cpu@1 {
+			compatible = "arm,cortex-a53";
+			reg = <0x1>;
+			device_type = "cpu";
+			enable-method = "psci";
+			next-level-cache = <&A53_L2>;
+			clocks = <&ca53clk>;
+		};
+
+		A53_L2: l2-cache0 {
+			compatible = "cache";
+			cache-level = <2>;
+		};
+	};
+	
+	psci {
+		compstible = "arm,psci-0.2";
+		method = "smc";
+	};
+/*
+	idle-states {
+*/
+		/*
+		 * PSCI node is not added default, U-boot will add missing
+		 * parts if it determines to use PSCI.
+		 */
+/*
+		 entry-method = "psci";
+		 CPU_SLEEP_0: cpu-sleep-0 {
+ 	                compatible = "arm,idle-state";
+                        arm,psci-suspend-param = <0x0010000>;
+                        local-timer-stop;
+                        entry-latency-us = <300>;
+                        exit-latency-us = <1200>;
+                        min-residency-us = <2000>;
+		};
+*/
+/*
+                CLUSTER_SLEEP_0: cluster-sleep-0 {
+                        compatible = "arm,idle-state";
+                        arm,psci-suspend-param = <0x1010000>;
+                        local-timer-stop;
+                        entry-latency-us = <400>;
+                        exit-latency-us = <1200>;
+                        min-residency-us = <2500>;
+                };
+*/
+/*
+	};
+*/	
+	timer {
+		compatible = "arm,armv8-timer";
+		interrupt-parent = <&gic>;
+		interrupts = <GIC_PPI 13 (GIC_CPU_MASK_SIMPLE(5) | IRQ_TYPE_LEVEL_LOW)>, /* Secure Phys IRQ */ 
+			     <GIC_PPI 14 (GIC_CPU_MASK_SIMPLE(6) | IRQ_TYPE_LEVEL_LOW)>, /* Non-secure Phys IRQ */
+			     <GIC_PPI 11 (GIC_CPU_MASK_SIMPLE(3) | IRQ_TYPE_LEVEL_LOW)>, /* Virt IRQ */
+			     <GIC_PPI 10 (GIC_CPU_MASK_SIMPLE(2) | IRQ_TYPE_LEVEL_LOW)>; /* Hyp IRQ */
+	};
+
+
+	/*
+	 * GIC
+	 * 0x20500000 ~ 0x205FFFFF
+	 * GICD_ Distributor
+	 * GICC_ CPU interfaces
+	 * GICH_ Virtual interface control blocks
+	 * GICV_ Virtual CPU interfaces.
+	 * 0x0000 - 0x0FFF : Reserved
+	 * 0x1000 - 0x1FFF : Distributor
+	 * 0x2000 - 0x3FFF : CPU interface 
+	 * 0x4000 - 0x4FFF : Virtual interface control block, for the prosessor that is performing the access
+	 * 0x5000 - 0x5FFF : Virtual interface control block, for the prosessor selected by address bit[11:9]
+	 * 0x5000 - 0x51FF : Alias for Processor 0
+	 * 0x5200 - 0x53FF : Alias for Processor 1
+	 * ...             : ...
+	 * 0x5E00 - 0x5FFF : Alias for Processor 7 
+	 * 0x6000 - 0x7FFF : Virtual CPU interfacea
+	 *
+	 *
+	 * GICD_PPISR
+	 * 0 - 8   :  Reserved
+	 * 9       :  ID25 (GIC_CPU_MASK_SIMPLE)
+	 * 10      :  ID26 (Hypervisor timer event)
+	 * 11      :  ID27 (Virtual timer event)
+	 * 12      :  ID28 (nLEGACYFIQ signal)
+	 * 13      :  ID29 (Secure physical timer event)
+	 * 14      :  ID30 (Non-secure physical timer event)
+	 * 15      :  ID31 (nLEGACYIRQ signal)
+	 * 16 - 31 :  Reserved
+	 */
+	gic: interrupt-controller@20501000 {
+		compatible = "arm,gic-400", "arm,cortex-a15-gic";
+		#address-cells = <0>;
+		#interrupt-cells = <3>;
+                interrupt-controller;
+		reg = <0x0 0x20501000 0x0 0x1000>, /* GICD */ 
+		      <0x0 0x20502000 0x0 0x2000>, /* GICC */
+		      <0x0 0x20504000 0x0 0x2000>, /* GICH */
+		      <0x0 0x20506000 0x0 0x2000>; /* GICV */
+		interrupts = <GIC_PPI 9 (GIC_CPU_MASK_SIMPLE(2) | IRQ_TYPE_LEVEL_HIGH)>;
+		interrupt-parent = <&gic>;
+		status = "okay";
+	};
+
+         /*
+          * DMA
+          * 0x2000 5000 ~ 0x2000 5FFF  - DMA_NS(Non Secure)  compatible = "arm,pl330", "arm,primecell";
+          * 0x3000 0000 ~ 0x3000 0FFF  - DMA_S(Secure)
+          */
+
+
+/*
+          dma0: dmac@20005000 {
+                compatible = "arm,pl330", "arm,primecell";
+                reg = <0x0 0x20005000 0x0 0x1000>;
+                #dma-cells = <1>;
+		interrupt-parant = <&gic>;
+                interrupt-names = "abort", "dma0", "dma1", "dma2", "dma3";
+                interrupts = <GIC_SPI 3 IRQ_TYPE_LEVEL_HIGH>,
+                             <GIC_SPI 4 IRQ_TYPE_LEVEL_HIGH>,
+                             <GIC_SPI 5 IRQ_TYPE_LEVEL_HIGH>,
+                             <GIC_SPI 6 IRQ_TYPE_LEVEL_HIGH>,
+                             <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>;
+                #dma-channels = <4>;
+                #dma-requests = <32>;
+                clocks = <&sys_pll>;
+                clock-names = "apb_pclk";
+        };
+*/
+
+	amba: amba {
+		compatible = "simple-bus";
+		#address-cells = <2>;
+		#size-cells = <2>;
+		clocks = <&sys_pll>;
+		ranges;
+
+		/*
+	 	 * SRAM
+	 	 */
+
+		/*
+		sram: sram@200000 {
+			compatible = "arm,juno-sram-ns", "mmio-sram";
+			reg = <0x0 0x00200000 0x0 0x400000>;
+
+			#address-cells = <1>;
+			#size-cells = <1>;
+			ranges = <0 0x0 0x00200000 0x400000>;
+			status = "disabled";
+		};
+	 	*/
+
+
+		/*
+		 * Timer  - OK
+	 	 */
+		timer0: timer@20003000 {
+			compatible = "arm,sp804", "arm,primecell";
+			reg = <0x0 0x20003000 0x0 0x1000>;
+			interrupts = <GIC_SPI 20 IRQ_TYPE_LEVEL_HIGH>, <GIC_SPI 21 IRQ_TYPE_LEVEL_HIGH>;
+			clocks = <&timerclk>, <&timerclk>, <&sys_pll>;  
+			clock-names = "timer1", "timer2", "apb_pclk";
+			status = "disabled";
+		};
+		/*
+		timer1: timer@30008000 {
+			compatible = "arm,sp804", "arm,primecell";
+			reg = <0x0 0x30008000 0x0 0x1000>;
+			interrupts = <GIC_SPI 36 IRQ_TYPE_LEVEL_HIGH>, <GIC_SPI 37 IRQ_TYPE_LEVEL_HIGH>;
+			clocks = <&timerclk>, <&timerclk>, <&sys_pll>;  
+			clock-names = "timer1", "timer2", "apb_pclk";
+			status = "disabled";
+		};
+		*/
+	
+		/*
+		* GPIO  - OK 
+		*/
+		gpio0: gpio@20000000 {
+			compatible = "arm,pl061", "arm,primecell";
+			reg = <0x0 0x20000000 0x0 0x1000>;
+			interrupts = <GIC_SPI 10 IRQ_TYPE_LEVEL_HIGH>;
+			clocks = <&sys_pll>;
+			clock-names = "apb_pclk";
+			gpio-controller;
+			#gpio-cells = <2>;  /* TODO : */
+			/*
+			interrupt-controller;
+			#interrupt-cells = <2>;
+			*/
+			status = "disabled";
+		};
+
+		/*
+		* DMA
+		* 0x2000 5000 ~ 0x2000 5FFF  - DMA_NS(Non Secure)  compatible = "arm,pl330", "arm,primecell";
+		* 0x3000 0000 ~ 0x3000 0FFF  - DMA_S(Secure)
+		*/
+/*
+		pdma0: dma-controller@20005000 {
+			compatible = "arm,pl330", "arm,primecell";
+			reg = <0x0 0x20005000 0x0 0x1000>;
+			interrupt-parent = <&gic>;
+			#dma-cells = <1>;
+			interrupt-names = "abort", "dma0", "dma1", "dma2", "dma3";
+			interrupts = <GIC_SPI 3 IRQ_TYPE_LEVEL_HIGH>,
+				     <GIC_SPI 4 IRQ_TYPE_LEVEL_HIGH>,
+				     <GIC_SPI 5 IRQ_TYPE_LEVEL_HIGH>,
+				     <GIC_SPI 6 IRQ_TYPE_LEVEL_HIGH>,
+			    	     <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>;
+			#dma-channels = <4>;
+			#dma-requests = <32>;
+			clocks = <&sys_pll>;
+			clock-names = "apb_pclk";
+		};
+*/
+/*
+		alice0: alice@20005000 {
+			compatible = "alice,test";
+			reg = <0x0 0x20005000 0x0 0x1000>;
+		}
+*/
+		/*
+		* Uart  - OK
+		*/
+		uart0: serial@20020000 {
+			compatible = "arm,pl011", "arm,primecell";
+			reg = <0x0 0x20020000 0x0 0x1000>;
+			interrupts = <GIC_SPI 0 IRQ_TYPE_LEVEL_HIGH>;  /* OK 32 -> 0*/
+			clocks = <&uartclk>, <&sys_pll>;
+			clock-names = "uartclk", "apb_pclk";
+			status = "okay";
+		};
+		uart1: serial@20021000 {
+			compatible = "arm,pl011", "arm,primecell";
+			reg = <0x0 0x20021000 0x0 0x1000>;
+			interrupts = <GIC_SPI 1 IRQ_TYPE_LEVEL_HIGH>;
+			clocks = <&uartclk>, <&sys_pll>;
+			clock-names = "uartclk", "apb_pclk";
+			status = "disabled";
+		};
+		uart2: serial@20022000 {
+			compatible = "arm,pl011", "arm,primecell";
+			reg = <0x0 0x20022000 0x0 0x1000>;
+			interrupts = <GIC_SPI 2 IRQ_TYPE_LEVEL_HIGH>;
+			clocks = <&uartclk>, <&sys_pll>;
+			clock-names = "uartclk", "apb_pclk";
+			status = "disabled";
+		};
+		uart3: serial@20023000 {
+			compatible = "arm,pl011", "arm,primecell";
+			reg = <0x0 0x20023000 0x0 0x1000>;
+			interrupts = <GIC_SPI 38 IRQ_TYPE_LEVEL_HIGH>;
+			clocks = <&uartclk>, <&sys_pll>;
+			clock-names = "uartclk", "apb_pclk";
+			status = "disabled";
+		};
+
+		/*
+		* SSI(QSPI)
+		*/
+		spi0: spi@20024000 {
+			compatible = "snps,dw-apb-ssi";
+			reg = <0x0 0x20024000 0x0 0x1000>;
+			interrupts = <GIC_SPI 17 IRQ_TYPE_LEVEL_HIGH>;
+			#address-cells = <1>;
+			#size-cells = <0>;
+			clocks = <&ssiclk>;
+			num-cs = <1>;
+			cs-gpios = <&gpio0 13 0>,
+					   <&gpio0 14 0>;
+			
+			status = "disabled";
+		};
+
+		/*
+		* SSP  - OK
+		*/
+/*
+		spi1: spi@20025000 {
+			compatible = "arm,pl022", "arm,primecell";
+			reg = <0x0 0x20025000 0x0 0x1000>;
+			#address-cells = <1>;
+			#size-cells = <0>;
+			interrupts = <GIC_SPI 13 IRQ_TYPE_LEVEL_HIGH>;
+			dmas = <&pdma0 9 1>,
+				   <&pdma0 8 0>;
+			dma-names = "rx", "tx";
+			status = "disabled";
+		};
+		spi2: spi@20026000 {
+			compatible = "arm,pl022", "arm,primecell";
+			reg = <0x0 0x20026000 0x0 0x1000>;
+			#address-cells = <1>;
+			#size-cells = <0>;
+			interrupts = <GIC_SPI 23 IRQ_TYPE_LEVEL_HIGH>;
+			dmas = <&pdma0 19 1>,
+				   <&pdma0 18 0>;
+			dma-names = "rx", "tx";
+			status = "disabled";
+		};
+*/
+		/*
+		 * I2C  - OK 
+		 */
+		i2c0: i2c@20027000 {
+			compatible = "snps,designware-i2c";
+			reg = <0x0 0x20027000 0x0 0x1000>;
+			#address-cells = <1>;
+			#size-cells = <0>;
+			interrupts = <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>;
+			clock-frequency = <100000>;
+			/* i2c-sda-hold-time-ns = <500>; */
+			clocks = <&iicclk>;
+			status = "disabled";
+		};
+		i2c1: i2c@20028000 {
+			compatible = "snps,designware-i2c";
+			reg = <0x0 0x20028000 0x0 0x1000>;
+			#address-cells = <1>;
+			#size-cells = <0>;
+			interrupts = <GIC_SPI 9 IRQ_TYPE_LEVEL_HIGH>;
+			clock-frequency = <400000>;
+			i2c-sda-hold-time-ns = <500>;
+			clocks = <&iicclk>;
+			status = "disabled";
+		};
+		i2c2: i2c@20029000 {
+			compatible = "snps,designware-i2c";
+			reg = <0x0 0x20029000 0x0 0x1000>;
+			#address-cells = <1>;
+			#size-cells = <0>;
+			interrupts = <GIC_SPI 26 IRQ_TYPE_LEVEL_HIGH>;
+			clock-frequency = <400000>;
+			i2c-sda-hold-time-ns = <500>;
+			clocks = <&iicclk>;
+			status = "disabled";
+		};
+		i2c3: i2c@2002A000 {
+			compatible = "snps,designware-i2c";
+			reg = <0x0 0x2002A000 0x0 0x1000>;
+			#address-cells = <1>;
+			#size-cells = <0>;
+			interrupts = <GIC_SPI 27 IRQ_TYPE_LEVEL_HIGH>;
+			clock-frequency = <400000>;
+			i2c-sda-hold-time-ns = <500>;
+			clocks = <&iicclk>;
+			status = "disabled";
+		};
+
+		/*
+		 * I2S  - OK
+		 */
+/*
+		i2s0: i2s@2002B000 {
+			compatible = "snps,designware-i2s";
+			reg = <0x0 0x2002B000 0x0 0x1000>;
+			clocks = <&iicclk 0>;
+			clock-names = "i2sclk";
+			interrupts = <GIC_SPI 28 IRQ_TYPE_LEVEL_HIGH>;
+			#sound-dai-cells = <0>;
+			dmas = <&pdma0 1 1>,
+				   <&pdma0 0 0>;
+			dma-names = "rx", "tx";
+			status = "disabled";
+		};
+		i2s1: i2s@2002C000 {
+			compatible = "snps,designware-i2s";
+			reg = <0x0 0x2002C000 0x0 0x1000>;
+			clocks = <&iicclk 0>;
+			clock-names = "i2sclk";
+			interrupts = <GIC_SPI 29 IRQ_TYPE_LEVEL_HIGH>;
+			#sound-dai-cells = <0>;
+			dmas = <&pdma0 3 1>,
+				   <&pdma0 2 0>;
+			dma-names = "rx", "tx";
+			status = "disabled";
+		};
+		i2s2: i2s@2002D000 {
+			compatible = "snps,designware-i2s";
+			reg = <0x0 0x2002D000 0x0 0x1000>;
+			clocks = <&iicclk 0>;
+			clock-names = "i2sclk";
+			interrupts = <GIC_SPI 30 IRQ_TYPE_LEVEL_HIGH>;
+			#sound-dai-cells = <0>;
+			dmas = <&pdma0 5 1>,
+				   <&pdma0 4 0>;
+			dma-names = "rx", "tx";
+			status = "disabled";
+		};
+		i2s3: i2s@2002E000 {
+			compatible = "snps,designware-i2s";
+			reg = <0x0 0x2002E000 0x0 0x1000>;
+			clocks = <&iicclk 0>;
+			clock-names = "i2sclk";
+			interrupts = <GIC_SPI 31 IRQ_TYPE_LEVEL_HIGH>;
+			#sound-dai-cells = <0>;
+			dmas = <&pdma0 7 1>,
+				   <&pdma0 6 0>;
+			dma-names = "rx", "tx";
+			status = "disabled";
+		};
+*/
+
+		/*
+		 * SDIO_EMMC
+		 * 0x2010 0000 ~ 0x2010 FFFF  - SDIO_EMMC
+		 * GIC : 18 or 19
+		 */
+		sdio0: mmc@20100000 {
+                        compatible = "snps,dwcmshc-sdhci";
+                        reg = <0x0 0x20100000 0x0 0x10000>;
+                        clocks = <&sdioclk>, <&sdioclk>;
+                        clock-names = "core", "bus";
+                        interrupts = <GIC_SPI 18 IRQ_TYPE_LEVEL_HIGH>, <GIC_SPI 19 IRQ_TYPE_LEVEL_HIGH>;
+			bus-width = <4>;
+                        status = "disabled";
+                };
+
+		/*
+		 * GMAC
+		 * 0x2040 0000 ~ 0x204F FFFF  - GMAC  compatible = "snps,dwmac-4.10a"
+		 */
+		ethernet0: ethernet@20400000 {
+			compatible = "snps,dwmac";
+			reg = <0x0 0x20400000 0x0 0x100000>;
+			interrupt-parent = <&gic>;
+			interrupts = <GIC_SPI 16 IRQ_TYPE_LEVEL_HIGH>;
+			interrupt-names = "macirq";
+			phy-mode = "sgmii";
+			clocks = <&gmac_clk_in>;
+			clock-names = "stmmaceth";
+			status = "disabled";
+		};
+
+		/*
+		 * 0x3000 1000 ~ 0x3000 1FFF  - TS_CORECTRL
+		 */
+
+		/*
+		 * 0x3000 2000 ~ 0x3000 2FFF  - SYS_CTRL
+		 */
+
+		/*
+		 * Watchdog  - OK
+		 */
+		 /*
+		watchdog0: watchdog@30004000 {
+			compatible = "arm,sp805", "arm,primecell";
+			reg = <0x0 0x30004000 0x0 0x1000>;
+			interrupts = <GIC_SPI 11 IRQ_TYPE_LEVEL_HIGH>;
+			clocks = <&wdtclk>, <&sys_pll>;
+			clock-names = "wdog_clk", "apb_pclk";
+			status = "disabled";
+		};
+		*/
+
+		/*
+		 * 0x3000 6000 ~ 0x3000 6FFF  - PPC
+		 */
+		/*
+	   arm_cc712: crypto@80000000 {
+			   compatible = "arm,cryptocell-712-ree";
+			   interrupt-parent = <&intc>;
+			   interrupts = < 0 30 4 >;
+			   reg = < 0x80000000 0x10000 >;
+	   };
+		*/
+
+		/*
+		 * 0x3000 7000 ~ 0x3000 7FFF  - MPC
+		 */
+	};
+};

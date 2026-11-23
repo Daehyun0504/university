@@ -1,0 +1,6 @@
+Error: 'dt-doc-validate' not found!
+Ensure dtschema python package is installed and in your PATH.
+Current PATH is:
+/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+make[1]: *** [Documentation/devicetree/bindings/Makefile:13: check_dtschema_version] Error 1
+make: *** [Makefile:1526: dt_binding_check] Error 2

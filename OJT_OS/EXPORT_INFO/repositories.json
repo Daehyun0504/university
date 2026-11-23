@@ -1,0 +1,30 @@
+[
+  {
+    "path": "KERNEL/linux",
+    "commit": "cd9b81672742d239a3f05fe545bf4212b56d0ac9",
+    "remotes": "origin\thttps://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git (fetch)\norigin\thttps://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git (push)",
+    "tracked_entries": 78684,
+    "untracked_entries": 16
+  },
+  {
+    "path": "KERNEL/REF_KERNEL",
+    "commit": "8ca09d5fa3549d142c2080a72a4c70ce389163cd",
+    "remotes": "origin\thttps://git.gitlab.arm.com/infra-solutions/reference-design/platsw/linux.git (fetch)\norigin\thttps://git.gitlab.arm.com/infra-solutions/reference-design/platsw/linux.git (push)",
+    "tracked_entries": 79706,
+    "untracked_entries": 5643
+  },
+  {
+    "path": "FILESYSTEM/busybox",
+    "commit": "1a64f6a20aaf6ea4dbba68bbfa8cc1ab7e5c57c4",
+    "remotes": "origin\thttps://git.busybox.net/busybox (fetch)\norigin\thttps://git.busybox.net/busybox (push)",
+    "tracked_entries": 2797,
+    "untracked_entries": 0
+  },
+  {
+    "path": "UBOOT/u-boot-Digilent-Dev",
+    "commit": "e7773ea2067c224f178a40a97d003ff418f47e12",
+    "remotes": "origin\thttps://github.com/Digilent/u-boot-Digilent-Dev.git (fetch)\norigin\thttps://github.com/Digilent/u-boot-Digilent-Dev.git (push)",
+    "tracked_entries": 7937,
+    "untracked_entries": 1
+  }
+]

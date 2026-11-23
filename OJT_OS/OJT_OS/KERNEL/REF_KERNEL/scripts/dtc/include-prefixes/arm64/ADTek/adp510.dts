@@ -1,0 +1,178 @@
+/*
+ * ARM Ltd. Juno Platform
+ *
+ * Copyright (c) 2013-2014 ARM Ltd.
+ *
+ * This file is licensed under a dual GPLv2 or BSD license.
+ */
+
+/dts-v1/;
+#include <dt-bindings/interrupt-controller/arm-gic.h>
+#include <dt-bindings/arm/coresight-cti-dt.h>
+#include "adp510.dtsi"
+#include "adp510_Video.dtsi"
+
+/ {
+	model = "ADP510 development board";
+	compatible = "arm,vexpress"; 
+	interrupt-parent = <&gic>; 
+	#address-cells = <2>;
+	#size-cells = <2>;
+	
+	aliases {
+		serial0 = &uart0;
+		serial1 = &uart1;
+		serial2 = &uart2;
+		serial3 = &uart3;
+		/* serial4 = &uart4; */ /* Board Jump Uart */
+		ethernet0 = &ethernet0;
+		sdhc0 = &sdio0;
+	};
+
+	chosen {
+		stdout-path = "serial0:115200n8";
+	};
+
+	/*
+	 * 0x8000 0000 ~ 0xBFFF FFFF  - DDR (1GB)
+	 */
+	memory@80000000 {
+		device_type = "memory";
+		/* last 16MB of the first memory area is reserved for secure world use by firmware */
+		reg = <0x0 0x80080000 0x0 0x3FF80000>;
+	};
+
+	reserved-memory {
+ 	 	#address-cells = <2>;
+  		#size-cells = <2>;
+  		ranges;
+		display_reserved: framebuffer@b0100000 {
+			reg = <0x0 0xb0100000 0x0 0x600000>;
+		};
+ 	};
+};
+/*
+&sram {
+	status = "disabled";
+};
+*/
+
+&timer0 {
+	status = "okay";
+};
+/*
+&timer1 {
+	status = "okay";
+};
+*/
+&gpio0 {
+	status = "okay";
+};
+
+&uart0 {
+	status = "okay";
+};
+
+&uart1 {
+	status = "okay";
+};
+
+&uart2 {
+	status = "okay";
+};
+
+&uart3 {
+	status = "okay";
+};
+
+/*
+&uart4 {
+	status = "okay";
+};
+*/
+
+&spi0 {
+	status = "okay";
+};
+/*
+&spi1 {
+	status = "disabled";
+};
+
+&spi2 {
+	status = "disabled";
+};
+*/
+&i2c0 {
+	status = "okay";
+	ov5640_0: camera@3c {
+		compatible = "alice,ov5640";
+		reg = <0x3c>;
+	};
+};
+
+&i2c1 {
+	status = "okay";
+};
+
+&i2c2 {
+	status = "okay";
+};
+
+&i2c3 {
+	status = "okay";
+};
+/*
+&i2s0 {
+	status = "disabled";
+};
+
+&i2s1 {
+	status = "disabled";
+};
+
+&i2s2 {
+	status = "disabled";
+};
+
+&i2s3 {
+	status = "disabled";
+};
+*/
+&ethernet0 {
+	status = "okay";
+	max-speed = <1000>;
+	phy-id=<0x2000a231>;
+	phy-handle = <&phy0>;
+	
+	mdio0 {
+		#address-cells = <1>;
+		#size-cells = <0>;
+		compatible = "snps,dwmac-mdio";
+		phy0: ethernet-phy@3 {
+			compatible = "ethernet-phy-ieee802.3-c22";
+			device_type = "ethernet-phy";
+			ti,rx-internal-delay = <0x8>;
+			ti,tx-internal-delay = <0xa>;
+			ti,sgmii-ref-clock-output-enable = <0x1>;
+			ti,fifo-depth = <0x1>;
+			reg = <3>;
+		};
+	};
+};
+
+/*
+&watchdog0 {
+	status = "okay";
+};
+*/
+
+/*
+&fb0 {
+	status = "okay";
+};
+*/
+
+&sdio0 {
+	status = "okay";
+};
